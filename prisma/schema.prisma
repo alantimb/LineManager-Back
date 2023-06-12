@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model Attendance {
+  id        Int       @id @default(autoincrement())
+  queueId   Int?
+  userId    Int?
+  status    String
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  updatedAt DateTime? @default(now()) @db.Timestamp(6)
+  Queue     Queue?    @relation(fields: [queueId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User      User?     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Company {
+  id            Int             @id @default(autoincrement())
+  name          String          @db.VarChar(100)
+  email         String
+  cnpj          String          @db.VarChar(14)
+  password      String          @db.VarChar(255)
+  createdAt     DateTime?       @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime?       @default(now()) @db.Timestamptz(6)
+  QueueActivity QueueActivity[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model Queue {
+  id                  Int            @id @default(autoincrement())
+  activityId          Int?
+  acceptableQueueType String
+  Attendance          Attendance[]
+  QueueActivity       QueueActivity? @relation(fields: [activityId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model QueueActivity {
+  id           Int       @id @default(autoincrement())
+  activityType String
+  name         String
+  companyId    Int?
+  startsAt     DateTime? @db.Timestamp(6)
+  endsAt       DateTime? @db.Timestamp(6)
+  createdAt    DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt    DateTime? @default(now()) @db.Timestamptz(6)
+  Queue        Queue[]
+  Company      Company?  @relation(fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model User {
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(100)
+  email      String
+  cpf        String       @db.VarChar(11)
+  password   String       @db.VarChar(255)
+  createdAt  DateTime?    @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime?    @default(now()) @db.Timestamptz(6)
+  Attendance Attendance[]
+}
