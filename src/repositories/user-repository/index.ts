@@ -1,3 +1,4 @@
+import { User } from "protocols";
 import { prisma } from "../../config/database";
 
 
@@ -9,7 +10,15 @@ async function findByEmail(email: string) {
     })
 }
 
-async function create(data) {
+async function findByCpf(cpf: string) {
+    return await prisma.user.findFirst({
+        where: {
+            cpf: cpf
+        }
+    })
+}
+
+async function create(data: User) {
     return prisma.user.create({
         data
     })
@@ -17,6 +26,7 @@ async function create(data) {
 
 const userRepository = {
     findByEmail,
+    findByCpf,
     create
 }
 

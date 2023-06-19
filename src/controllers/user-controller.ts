@@ -15,6 +15,9 @@ export async function createUser(req: Request, res: Response) {
             email: user.email,
           });
     } catch (error) {
-        return console.log(error);
+        if (error.name === 'invalidExistingDataError') {
+            return res.status(httpStatus.CONFLICT).send(error)
+        }
+        return res.status(httpStatus.BAD_REQUEST).send(error);
     }
 }
