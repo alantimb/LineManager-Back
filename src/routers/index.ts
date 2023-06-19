@@ -1,10 +1,10 @@
 import { userRouter } from "./user-router";
 import { companyRouter } from "./company-router";
-import { authorizationRouter } from "./auth-router";
+import { authenticationRouter } from "./auth-router";
 
 const router = {
     userRouter,
-    authorizationRouter,
+    authenticationRouter,
     companyRouter
 }
 

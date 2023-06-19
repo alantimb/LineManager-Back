@@ -1,7 +1,8 @@
+import { signInPost } from "../controllers/auth-controller";
 import { Router } from "express";
 
-const authorizationRouter = Router();
+const authenticationRouter = Router();
 
-authorizationRouter.post('/sign-in')
+authenticationRouter.post('/sign-in', signInPost)
 
-export { authorizationRouter };
+export { authenticationRouter };

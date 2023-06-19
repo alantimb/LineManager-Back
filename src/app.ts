@@ -14,7 +14,7 @@ app
     .get('/health', (_req: Request, res: Response) => res.send('OK!'))
     .use('/users', router.userRouter)
     .use('/companies', router.companyRouter)
-    .use('/auth', router.authorizationRouter)
+    .use('/auth', router.authenticationRouter)
 
 export function init() {
     databaseConnections.connectDb();
