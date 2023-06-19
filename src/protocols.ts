@@ -9,3 +9,10 @@ export type User = {
     email: string;
     password: string;
 }
+
+export type Company = {
+    cnpj: string
+    name: string
+    email: string
+    password: string
+  }

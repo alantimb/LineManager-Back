@@ -1,6 +1,6 @@
 import { ApplicationError } from 'protocols';
 
-export function invalidExistingDataError(email: string, cpf: string, message: string): ApplicationEmailError {
+export function invalidExistingDataError(email: string, cpfCnpj: string, message: string): ApplicationEmailError {
   if (message === email) {
     return {
       name: 'invalidExistingDataError',
@@ -9,11 +9,17 @@ export function invalidExistingDataError(email: string, cpf: string, message: st
     };
   }
 
-  if (message === cpf) {
+  if (message === cpfCnpj && message.length === 11) {
     return {
       name: 'invalidExistingDataError',
-      email: cpf,
-      message: `"${cpf}" is not a valid cpf!`,
+      email: cpfCnpj,
+      message: `"${cpfCnpj}" is not a valid cpf!`,
+    };
+  } else if (message === cpfCnpj && message.length === 14) {
+    return {
+      name: 'invalidExistingDataError',
+      email: cpfCnpj,
+      message: `"${cpfCnpj}" is not a valid cnpj!`,
     };
   }
   
